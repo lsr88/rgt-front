@@ -1,40 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+전체적인 시스템은 크게 2가지로 
 
-## Getting Started
+식당 주문 처리 시스템과 식당에서 주문 관리를 주문 현황 대시보드 입니다.
 
-First, run the development server:
+이 프로젝트는 FastApi로 두가지 시스템의 프론트엔드 역할을 위해 만들었습니다.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+각 시스템의 백엔드 요구사항은 다음과 같습니다.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+식당 주문 처리 시스템
+1. 식당의 주문 페이지를 react 또는 next.js로 구현합니다.
+2. 음식 이름과 수량을 입력하고 주문 버튼을 통해 백엔드로 데이터를 전송합니다.
+3. 주문이 성공적으로 접수되면 주문이 접수되었습니다. 메시지를 표시합니다.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+주문 관리를 주문 현황 대시보드
+1. 웹주문이 접수될 때마다 실시간으로 대시보드에 주문 현황이 업데이트되는 페이지를 구현합니다.
+2. websocket을 사용하여 새로운 주문이 들어오면 대시보드가 자동으로 갱신합니다.
+3. 주문 목록은 테이블 형식으로 표시되며, 각 주문 상태를 업데이트 합니다.
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+사용자는 2 부류라고 가정하고 식당에서 주문을 관리하는 관리자와 식당에서 사용자가 주문하는 주문에 대한 기능으로 나누었습니다.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+page의 index는 main 페이지로서 주문하기 페이지나 주문 현황 대시보드로 이동합니다.
+management는 주문 현황 대시보드 페이지와 기능을 포함합니다.
+order는 주문 페이지의 화면과 기능을 포함합니다.
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+component는 다른 곳에서도 쓰기 위해 분리한 컴포넌트입니다. 안에는 주문 수량 조절 기능을 위한 기능들이 있습니다.
+주문 접수는 axios를 통해 ajax 통신으로 백엔드에 주문 데이터를 보냅니다.
+mui의 무료 template를 활용하여 화면을 구현하였습니다.
+음식 종류와 수량을 사용자가 집적 입력하는 방식이 아닌 select와 count 기능을 통해 제약을 걸면서 주문을 받습니다.
+modal기능을 작성하여 메시지를 출력하려 하였지만 시간이 부족하여 alert기능을 활용하였습니다.
 
-## Learn More
+주문 대시보드는 첫 접속시 임시저장소의 주문 전체를 axios를 통해 요청하고 받습니다.
+첫 접속 이후엔 websocket이 연결되어 주문 생성시 데이터를 받습니다.
+socketio를 활용하고자 하였지만 fastapi와 잘 연결되지 않아 기본 websocket으로 연결하였습니다.
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
